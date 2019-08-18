@@ -1,2 +1,5 @@
-# Removing all compiled python files
+# All compiled python files
 *.pyc
+
+# Event Log of the game
+event_log.txt
