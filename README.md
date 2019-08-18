@@ -3,6 +3,8 @@ This is functional prototype of a turn-based strategy game by the name of "Artif
 
 ## Prerequisites
 - Python 2.7 should be installed (this code should also run on Python 3+, but it was not tested properly)
+- PyGame should be installed
+- PyOpenGL should be installed
 
 ## How To Use
 1. Launch start.bat file
