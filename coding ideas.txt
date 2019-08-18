@@ -1,0 +1,98 @@
+main #runs the entire game
+->coupled with everything
+	+main cycle
+	+management classes' initializations and their interconnections
+
+event management
+-> map management
+-> unit management
+	+adds events such as movement, attacks, health checks, etc.
+	+handles events
+	+determines the action order for proper turn structure
+	-event queue
+	
+unit management class #controls the selection, adding/removing units, etc.
+-> map management
+	+create unit
+	+destroy unit
+	+move units
+	+resolve movement collisions
+	-units array containing all units currently existing
+	-movement queues array containing a queue for each unit
+	-currently selected unit
+
+drawing management class #so window drawing and unit drawin is separate? make the drawing heirarcy
+-> unit management
+-> map management
+	-constants required for drawing the window and everything on it
+
+input management class #keyboard, mouse management
+-> unit management
+-> map management
+	+state machine for inputs
+	+manages inputs from keyboard and mouse
+	-input states
+	-currently used input state
+
+map management class #returns the infomation about particular things being in particular places
+-> unit management
+-> drawing management #partially and more from a gui standpoint
+	-Vision Obstacle array
+	-Movement Obstacle array
+	-the entire map as an array
+	-neighbours graph each node containing every single neighboring hex with the selected one
+
+unit class
+-> unit management
+-> map management
+	+add movement queue
+	+cast ability
+	-stats (health, armor, speed, damage, AC, FR, VR, abilities)
+	-activated abilities #list of ability class instances that will be used during the turn
+	-active buff/debuff #just a list that autoresolves in the end of the turn
+	-current attack target (not all of them will have one)
+
+###
+
+game events:	#exclusively unit interactions
+	- unitMove
+	- unitAttack
+	- unitCreate
+	- unitDestroy
+	- unitHealthCheck
+	- unitAbilityCast
+
+input states:	#some game events are able to switch those around
+	-selection movement
+	-unit movement
+	-unit attack
+
+GUI:
+	- so the basic unit interaction gui:
+		- buttons for movement and attack actions
+		- buttons for ability casting
+		- button for undoing all actions
+		
+	- add additional "lense" so it will be possible to look up other units' attack and movement ranges
+	
+	- add tooltips:
+		- display info about units (name/faction/type/stats/abilities/effects/etc.)
+		(maybe have one set of tooltips, when hovering over a unit, and an expanded version when selected)
+		- display ability/effect information
+		- display terrain info (type/obstacles/etc.)
+		
+	- draw outline on selected unit
+	- draw outline on "aura" effects
+	
+###
+
+TODO:
+	- add key mapping from file
+	- make a basic Debug GUI for easier interactions with the game
+	- write basic p2p stuff, so i can play with somebody already
+	- add avalible units and rewrite the code to use coding for units instead of their names
+	- add a way to store temporal arrays/values in window managers, as to not recalculate the same info every frame
+	- rewrite MO and VO as separate things (also come up with different visuals for them)
+	- add a way to track mouse movement in input manager for map mouse scrolling
+
+DONE:
