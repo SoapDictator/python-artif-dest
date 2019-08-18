@@ -1,0 +1,2 @@
+# Removing all compiled python files
+*.pyc
