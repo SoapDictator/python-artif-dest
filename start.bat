@@ -1,1 +1,3 @@
 python AD.py
+
+@pause

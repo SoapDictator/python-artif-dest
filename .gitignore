@@ -3,3 +3,7 @@
 
 # Event Log of the game
 event_log.txt
+
+# SublimeText3 project files
+*.sublime-project
+*.sublime-workspace

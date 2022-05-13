@@ -42,7 +42,7 @@ class Main(object):
 			#self.testTankAttack().testArtiAttack().testUnitCastAbility()
 			
 			#for manual testing
-			# self.testCreateUnits()
+			self.testCreateUnits()
 			
 			pygame.key.set_repeat(50,50)
 			

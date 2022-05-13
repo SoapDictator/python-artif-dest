@@ -17,4 +17,4 @@ def getDistance(origin, target):
 	ar = origin[1]
 	bq = target[0]
 	br = target[1]
-	return (abs(aq-bq) + abs(aq+ar-bq-br) + abs(ar-br))/2
+	return int((abs(aq-bq) + abs(aq+ar-bq-br) + abs(ar-br))/2)

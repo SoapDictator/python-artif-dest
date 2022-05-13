@@ -1,3 +1,4 @@
+from utils import util
 import math
 
 class MapManager(object):
@@ -35,32 +36,32 @@ class MapManager(object):
 		
 			for Q in range(-WINDOW0.MAPRADIUS, WINDOW0.MAPRADIUS+1):
 				for R in range(-WINDOW0.MAPRADIUS, WINDOW0.MAPRADIUS+1):
-					if self.getDistance([Q, R], [0, 0]) > WINDOW0.MAPRADIUS:
+					if util.getDistance([Q, R], [0, 0]) > WINDOW0.MAPRADIUS:
 						continue
 					self.MAP.append([Q, R])
 					self.NEIGHBOURS[Q, R] = []
 					for hex in self.DIRECTIONS:
 						newHex = [Q+hex[0], R+hex[1]]
-						if self.getDistance(newHex, [0, 0]) <= WINDOW0.MAPRADIUS:
+						if util.getDistance(newHex, [0, 0]) <= WINDOW0.MAPRADIUS:
 							self.NEIGHBOURS[Q, R].append([newHex[0], newHex[1]])
 		
 		def getDistance(self, origin, target):
-			#true distance
-			#return math.sqrt(math.pow(abs(target[0]-origin[0]), 2) + math.pow(abs(target[1]-origin[1]), 2))
+			# true distance
+			# return math.sqrt(math.pow(abs(target[0]-origin[0]), 2) + math.pow(abs(target[1]-origin[1]), 2))
 			
-			#calculates how many non-diagonal steps it will take to get from origin to target
-			#return abs(target[0]-origin[0]) + abs(target[1]-origin[1])
+			# calculates how many non-diagonal steps it will take to get from origin to target
+			# return abs(target[0]-origin[0]) + abs(target[1]-origin[1])
 			
-			#calculates distance in axial hex coordinates
+			# calculates distance in axial hex coordinates
 			aq = origin[0]
 			ar = origin[1]
 			bq = target[0]
 			br = target[1]
-			return (abs(aq-bq) + abs(aq+ar-bq-br) + abs(ar-br))/2
+			return int((abs(aq-bq) + abs(aq+ar-bq-br) + abs(ar-br))/2)
 		
 		#returns all hexes on the line between the 2 points
 		def getLine(self, origin, target):
-			N = self.getDistance(origin, target)
+			N = util.getDistance(origin, target)
 			if N != 0:	div = 1/float(N)
 			else:		div = 0
 			result = []
@@ -88,7 +89,7 @@ class MapManager(object):
 			
 			while True:
 				for next in self.NEIGHBOURS[current[0], current[1]]:
-					if not visited.has_key((next[0], next[1])) and not (next in self.MOARRAY and MO):
+					if not (next[0], next[1]) in visited and not (next in self.MOARRAY and MO):
 						frontier.append(next)
 						visited[next[0], next[1]] = visited[current[0], current[1]] + 1
 				del frontier[0]
@@ -113,7 +114,7 @@ class MapManager(object):
 				offset2 = 0;
 				temp = 0
 				for r in range(hexStart[1], hexStop[1]+1):
-					if self.getDistance([q+offset2, r], [0, 0]) <= WINDOW0.MAPRADIUS:
+					if util.getDistance([q+offset2, r], [0, 0]) <= WINDOW0.MAPRADIUS:
 						rectangle.append([q+offset2, r])
 
 					temp -= 0.5
@@ -140,7 +141,7 @@ class MapManager(object):
 			
 			while True:
 				for next in self.NEIGHBOURS[current[0], current[1]]:
-					if not came_from.has_key((next[0], next[1])) and next not in self.MOARRAY:
+					if (next[0], next[1]) not in came_from and next not in self.MOARRAY:
 						frontier.append(next)
 						depth = came_from[current[0], current[1]][1] + 1
 						came_from[next[0], next[1]] = [[current[0], current[1]], depth]
@@ -151,10 +152,10 @@ class MapManager(object):
 					break
 
 			#if your target is outside the limit pathfinder will rather make a path to the closest to your target hex
-			if not came_from.has_key((target[0], target[1])):
+			if (target[0], target[1]) not in came_from:
 				line = self.getLine(origin, target)
 				for hex in line[::-1]:
-					if came_from.has_key((hex[0], hex[1])):
+					if (hex[0], hex[1]) in came_from:
 						target = hex
 						break
 			
@@ -182,7 +183,7 @@ class MapManager(object):
 					breakFlag = 0
 					pixelTarget = WINDOW0.hextopixel(target)
 					
-					N = self.getDistance(coord, target)*2
+					N = util.getDistance(coord, target)*2
 					pixelN = [pixelOrigin[0]-pixelTarget[0], pixelOrigin[1]-pixelTarget[1]]
 					if N != 0:	
 						pixelDiv = [float(pixelN[0])/N, float(pixelN[1])/N]

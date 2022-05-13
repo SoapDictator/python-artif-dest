@@ -1,15 +1,16 @@
-import unit
+from managers import unit
 import time
 
 global AVAILIBLEEVENTS
 #dictionary entry format - (event name: priority)
-AVAILIBLEEVENTS = {	"EventUnitCreate": 0,
-									"EventUnitAttack": 1, 
-									"EventUnitAbilityCast": 2,
-									"EventUnitHPCheck": 4,
-									"EventUnitDestroy": 5,
-									"EventUnitMove": 6,
-									"EventEffectTick": 9}
+AVAILIBLEEVENTS = {
+	"EventUnitCreate": 0,
+	"EventUnitAttack": 1,
+	"EventUnitAbilityCast": 2,
+	"EventUnitHPCheck": 4,
+	"EventUnitDestroy": 5,
+	"EventUnitMove": 6,
+	"EventEffectTick": 9}
 
 class GameEventManager(object):
 	#singleton implementation
@@ -207,6 +208,9 @@ class Events:
 			targets = MAP0.getUnitByCoord(attacker.getTarget())
 				
 			if targets == None:
+				if UNIT0.isArti(attacker):
+					attacker.statCur["AMM"] -= 1
+					attacker.resetTarget()
 				return
 				
 			for target in targets:
